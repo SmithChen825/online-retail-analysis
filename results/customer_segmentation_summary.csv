@@ -1,0 +1,10 @@
+"recency_group","frequency_group","monetary_group","customer_count","customer_pct","net_amount","net_amount_pct"
+"More recent","Higher frequency","Higher value",1878,32.25,12532025.65,77.96
+"Less recent","Higher frequency","Higher value",737,12.65,2016386.35,12.54
+"Less recent","Lower frequency","Lower value",1645,28.25,487244.20,3.03
+"Less recent","Lower frequency","Higher value",187,3.21,298801.66,1.86
+"More recent","Lower frequency","Lower value",625,10.73,227458.58,1.42
+"Less recent","Higher frequency","Lower value",324,5.56,178985.37,1.11
+"More recent","Higher frequency","Lower value",298,5.12,169672.49,1.06
+"More recent","Lower frequency","Higher value",111,1.91,165157.06,1.03
+"Review","Lower frequency","Non-positive",19,0.33,-1549.46,-0.01
