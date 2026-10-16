@@ -1,8 +1,8 @@
 # Online Retail II — Sales Analytics
 
-**Status: work in progress. First public milestone: data quality and exploratory diagnostics.**
+**Status: work in progress. Second public milestone: PostgreSQL analysis, retention and customer segmentation.**
 
-A personal portfolio project investigating historical retail transactions with Python/pandas. The goal is to connect data-quality decisions to interpretable sales, customer and product metrics. SQL, a BI dashboard, repeat-purchase analysis and an experiment proposal are planned; they are not completed features.
+A personal portfolio project investigating historical retail transactions with Python/pandas. The goal is to connect data-quality decisions to interpretable sales, customer and product metrics. PostgreSQL analysis now covers sales diagnostics, observed repeat purchasing, cohort retention and exploratory customer segmentation. A BI dashboard and an experiment proposal remain planned.
 
 ## Start here
 
@@ -45,10 +45,39 @@ The workbook and local environments are ignored by Git. The notebook contains sm
 - [x] Inspect source schema, missingness, overlap and unusual transactions
 - [x] Build candidate transaction flags and initial monthly diagnostics
 - [ ] Consolidate cleaning pipeline and complete sensitivity checks
-- [ ] Define customer repeat-purchase metrics and observation windows
-- [ ] Load data into PostgreSQL and reproduce core metrics in SQL
+- [x] Define customer repeat-purchase metrics and observation windows
+- [x] Load data into PostgreSQL and reproduce core metrics in SQL
 - [ ] Build a Power BI or Tableau dashboard
 - [ ] Write a business report and an A/B test proposal
+
+## PostgreSQL milestone
+
+Run the numbered files in [sql/](sql/) using PostgreSQL 18 and pgAdmin. Small exported tables are in [results/](results/).
+
+1. Execute the notebook, then run `%run export_transactions.py` in the same notebook kernel, from the repository directory.
+2. Create a database named `online_retail`, connect to it, and run `sql/01_create_tables.sql` once.
+3. Import `data/processed/product_transactions.csv` into `public.product_transactions`: CSV, UTF8, header enabled, comma delimiter, double quote for both quote and escape, all 12 columns in table order. Empty customer IDs import as NULL. Import once into the empty table; importing again appends duplicates.
+4. Run `02_validate_import.sql`: expect 1,033,062 rows, GBP 18,981,261.52 net amount and 227,214 missing customer IDs.
+5. Run scripts 03–07. Script 04 contains three separate statements. The full-period import check includes partial December 2011; monthly and customer analyses end before 2011-12-01.
+
+| Script | Output |
+| --- | --- |
+| 03_monthly_yoy.sql | Monthly net sales and year-over-year growth |
+| 04_april_sales_diagnostics.sql | April amount, order and country comparisons |
+| 05_customer_retention.sql | Cohort sizes and month 1, 3 and 6 purchase retention |
+| 06_customer_value.sql | Top 10, 50 and 100 customer net-sales shares |
+| 07_customer_segmentation.sql | Exploratory RFM segment sizes and contribution |
+
+### Customer findings and definitions
+
+- Observed repeat purchasing: 4,177 of 5,824 identified positive-order customers placed at least two distinct positive invoices (71.72%). This is not monthly retention and gives later customers less follow-up time.
+- Weighted next-calendar-month purchase retention is 1,315 / 5,633 = 23.34%; excluding the first observed cohort gives 982 / 4,682 = 20.97%. November 2011 is excluded from these denominators. These two figures are documented session results; script 05 outputs the cohort matrix, not these pooled calculations.
+- A cohort is the month of first observed positive purchase, not verified acquisition. Purchases count even if a later cancellation occurs; these are gross purchase-activity retention measures. Future unobserved months remain NULL. In this dataset all observed cohort-month combinations have activity; a general zero-activity dataset would require a calendar grid before distinguishing zero from unobserved.
+- Top 10 / 50 / 100 customers contribute 16.23% / 29.56% / 36.68% of identified net sales. This denominator includes cancellation-only customers.
+- RFM includes 5,824 identified customers with at least one positive order. As of 2011-12-01, descriptive thresholds are recency <= 100 days, frequency >= 3 orders and net spending >= GBP 835.46. Non-positive net spending is marked for review (19 customers). Thresholds are exploratory, not validated targeting rules.
+- The more-recent, higher-frequency, higher-value segment contains 1,878 customers (32.25%) and 77.96% of RFM-population net sales. Historical contribution does not predict future spending; customer tenure affects frequency and spending.
+
+SQL was executed interactively by the author in pgAdmin. Published scripts were reviewed against those results and exported tables; this release does not claim an automated fresh-database integration test. The original notebook remains the first-milestone executed artifact; the export helper bridges it to SQL.
 
 ## Source and attribution
 

@@ -11,3 +11,7 @@ venv/
 !.env.example
 .DS_Store
 Thumbs.db
+
+# Publish small aggregate results only
+!results/
+!results/*.csv
