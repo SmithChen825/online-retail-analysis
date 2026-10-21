@@ -27,8 +27,10 @@ The Validation page retains development reconciliation figures. It is intended t
 |---|---|---|
 | `Transactions` | PostgreSQL `online_retail.public.product_transactions` | Product transaction line |
 | `Calendar` | DAX calendar, 2009-01-01 through 2011-12-31 | One date |
-| `CohortRetention` | `../data/processed/cohort_retention_summary.csv` | One first-observed-purchase month; 24 rows |
-| `CustomerSegmentation` | `../data/processed/customer_segmentation_summary.csv` | One RFM group combination; 9 rows |
+| `CohortRetention` | `data/processed/cohort_retention_summary.csv` | One first-observed-purchase month; 24 rows |
+| `CustomerSegmentation` | `data/processed/customer_segmentation_summary.csv` | One RFM group combination; 9 rows |
+
+CSV paths in this document are relative to the repository root. They describe file locations, not automatic relative-path resolution in Power BI; update the actual local source paths in Power Query when refreshing on another machine.
 
 `Transactions` uses Import mode. The development connection is `localhost:5432`; another user must provide their own PostgreSQL connection and credentials. The transaction table contains cleaned product sales and cancellations, rather than every record from the raw workbook. Refer to the notebook and SQL for upstream exclusions and duplicate handling.
 
@@ -120,9 +122,9 @@ Clear selections before saving the presentation state. Narrative text boxes are 
 
 ## Final local walkthrough
 
-The user reran SQL 05 and 07, supplied the 24-row cohort and 9-row segmentation outputs, and reported exporting both CSVs. Screenshots supplied after the refresh instructions reconciled all three report pages: sales GBP 18,539,895.01 / 38,700 orders / GBP 493.16 AOV / 2.86% cancellation rate; retention 5,824 / 23.34% / 20.97%; leading RFM segment 1,878 / 32.25% / GBP 12,532,025.65 / 77.96%, with 19 Review customers and GBP -1,549.46. Unobservable retention cells remained blank.
+SQL 05 and 07 were rerun manually, producing 24 cohort rows and 9 segmentation rows; both CSV exports were reported as completed. Screenshot-backed checks reconciled all three report pages: sales GBP 18,539,895.01 / 38,700 orders / GBP 493.16 AOV / 2.86% cancellation rate; retention 5,824 / 23.34% / 20.97%; leading RFM segment 1,878 / 32.25% / GBP 12,532,025.65 / 77.96%, with 19 Review customers and GBP -1,549.46. Unobservable retention cells remained blank.
 
-This is a user-operated, screenshot-backed reconciliation, not an automated PBIX refresh test. The reviewer did not independently observe refresh completion or the final save. No new transaction import, clean-database rebuild or repeat interaction test was performed. Save the PBIX with cleared selections before sharing. See [validation record](../VALIDATION.md#manual-sql-and-dashboard-reconciliation).
+This reconciliation confirms displayed results. Refresh completion and the final save were not independently observed. No automated PBIX refresh test, new transaction import, clean-database rebuild or repeat interaction test was performed during this walkthrough. See [validation record](../VALIDATION.md#manual-sql-and-dashboard-reconciliation).
 
 ## Refresh and handover
 
