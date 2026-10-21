@@ -1,12 +1,42 @@
 # Online Retail II — Sales Analytics
 
-**Status: work in progress. Second public milestone: PostgreSQL analysis, retention and customer segmentation.**
+**Status: work in progress. Third public milestone: Power BI dashboard, screenshots and technical documentation.**
 
-A personal portfolio project investigating historical retail transactions with Python/pandas. The goal is to connect data-quality decisions to interpretable sales, customer and product metrics. PostgreSQL analysis now covers sales diagnostics, observed repeat purchasing, cohort retention and exploratory customer segmentation. A BI dashboard and an experiment proposal remain planned.
+A personal portfolio project investigating historical retail transactions with Python/pandas, PostgreSQL and Power BI. The goal is to connect data-quality decisions to interpretable sales, customer and product metrics. PostgreSQL analysis now covers sales diagnostics, observed repeat purchasing, cohort retention and exploratory customer segmentation. A three-page Power BI dashboard now presents sales performance, cohort retention and customer value. Cleaning sensitivity checks, a business report and an experiment proposal remain follow-up work.
 
 ## Start here
 
 Open [01_data_check.ipynb](01_data_check.ipynb) for the executed investigation and its limitations. It covers overlapping source sheets, missing customer IDs, duplicate sensitivity, special transaction codes, monthly amounts and an April 2011 diagnostic.
+
+## Power BI dashboard
+
+[Download the Power BI workbook](powerbi/Online_Retail_Dashboard.pbix?raw=true) · [Technical and analytical notes](powerbi/powerbi_notes.md)
+
+The dashboard covers **December 2009–November 2011**, with an RFM snapshot as of **1 December 2011**. Amounts are in GBP. Partial December 2011 is excluded, so dashboard totals differ from the full-period import checks below.
+
+| Page | Business question | Contents |
+| --- | --- | --- |
+| Sales Overview | How did sales change over time and across countries? | Net sales, orders, average order value, cancellation amount rate, monthly YoY and country comparisons |
+| Customer Retention | How often did customers purchase again in later months? | First-observed-purchase cohorts, month 1/3/6 heatmap and weighted month-1 retention |
+| Customer Value | Which customer groups contributed most to net sales? | Exploratory RFM segments, customer and sales shares, and segment net-sales comparisons |
+
+Open the downloaded PBIX in Power BI Desktop to explore the saved data and interactions. Screenshots below can be viewed without Power BI. Refreshing requires the PostgreSQL source and local summary CSVs; setup, metric definitions, manual reconciliation checks and limitations are documented in the [Power BI notes](powerbi/powerbi_notes.md). This is a historical portfolio report, not a live hosted dashboard.
+
+### Sales Overview
+
+![Sales Overview dashboard with sales KPIs, monthly trends and country comparisons](powerbi/sales_overview.png)
+
+### Customer Retention
+
+![Customer Retention dashboard with cohort heatmap and weighted retention cards](powerbi/customer_retention.png)
+
+Blank retention cells represent months that are not yet observable, not zero retention. The first cohort is based on first observed purchase, not verified customer acquisition.
+
+### Customer Value
+
+![Customer Value dashboard with RFM segment table and net-sales bar chart](powerbi/customer_value.png)
+
+RFM shares use identified customers with at least one positive order as their population. The segment with more recent purchases, higher frequency and higher monetary value accounts for 32.25% of these customers and 77.96% of segment net sales; this describes historical contribution, not predicted future value.
 
 ## Early findings
 
@@ -47,7 +77,7 @@ The workbook and local environments are ignored by Git. The notebook contains sm
 - [ ] Consolidate cleaning pipeline and complete sensitivity checks
 - [x] Define customer repeat-purchase metrics and observation windows
 - [x] Load data into PostgreSQL and reproduce core metrics in SQL
-- [ ] Build a Power BI or Tableau dashboard
+- [x] Build and document a three-page Power BI dashboard
 - [ ] Write a business report and an A/B test proposal
 
 ## PostgreSQL milestone
