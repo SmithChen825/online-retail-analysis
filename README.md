@@ -2,9 +2,11 @@
 
 **Status: work in progress. Latest milestone: duplicate sensitivity validation across sales, retention and fixed-threshold RFM.**
 
-A personal portfolio project investigating historical retail transactions with Python/pandas, PostgreSQL and Power BI. The goal is to connect data-quality decisions to interpretable sales, customer and product metrics. PostgreSQL analysis now covers sales diagnostics, observed repeat purchasing, cohort retention and exploratory customer segmentation. A three-page Power BI dashboard now presents sales performance, cohort retention and customer value. Duplicate-removal sensitivity has now been checked for sales, purchase retention and fixed-threshold RFM. Cleaning-pipeline consolidation, a business report and an experiment proposal remain follow-up work.
+A personal portfolio project investigating historical retail transactions with Python/pandas, PostgreSQL and Power BI. The goal is to connect data-quality decisions to interpretable sales, customer and product metrics. PostgreSQL analysis now covers sales diagnostics, observed repeat purchasing, cohort retention and exploratory customer segmentation. A three-page Power BI dashboard now presents sales performance, cohort retention and customer value. Duplicate-removal sensitivity has now been checked for sales, purchase retention and fixed-threshold RFM. The business report brings these findings together with recommendations and limitations. Cleaning-pipeline consolidation and an experiment proposal remain follow-up work.
 
 ## Start here
+
+Read the [Business Report](BUSINESS_REPORT.md) for the main findings, April sales-decline breakdown, customer retention and RFM interpretation, recommended actions and limitations.
 
 Open [01_data_check.ipynb](01_data_check.ipynb) for the executed investigation and its limitations. It covers overlapping source sheets, missing customer IDs, duplicate sensitivity, special transaction codes, monthly amounts and an April 2011 diagnostic.
 
@@ -79,7 +81,8 @@ The workbook and local environments are ignored by Git. The notebook contains sm
 - [x] Define customer repeat-purchase metrics and observation windows
 - [x] Load data into PostgreSQL and reproduce core metrics in SQL
 - [x] Build and document a three-page Power BI dashboard
-- [ ] Write a business report and an A/B test proposal
+- [x] Write a business report
+- [ ] Write an A/B test proposal
 
 ## PostgreSQL milestone
 
