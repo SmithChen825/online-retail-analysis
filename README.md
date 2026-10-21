@@ -1,8 +1,8 @@
 # Online Retail II — Sales Analytics
 
-**Status: work in progress. Third public milestone: Power BI dashboard, screenshots and technical documentation.**
+**Status: work in progress. Latest milestone: duplicate sensitivity validation across sales, retention and fixed-threshold RFM.**
 
-A personal portfolio project investigating historical retail transactions with Python/pandas, PostgreSQL and Power BI. The goal is to connect data-quality decisions to interpretable sales, customer and product metrics. PostgreSQL analysis now covers sales diagnostics, observed repeat purchasing, cohort retention and exploratory customer segmentation. A three-page Power BI dashboard now presents sales performance, cohort retention and customer value. Cleaning sensitivity checks, a business report and an experiment proposal remain follow-up work.
+A personal portfolio project investigating historical retail transactions with Python/pandas, PostgreSQL and Power BI. The goal is to connect data-quality decisions to interpretable sales, customer and product metrics. PostgreSQL analysis now covers sales diagnostics, observed repeat purchasing, cohort retention and exploratory customer segmentation. A three-page Power BI dashboard now presents sales performance, cohort retention and customer value. Duplicate-removal sensitivity has now been checked for sales, purchase retention and fixed-threshold RFM. Cleaning-pipeline consolidation, a business report and an experiment proposal remain follow-up work.
 
 ## Start here
 
@@ -50,7 +50,7 @@ These are descriptive, provisional findings from historical data, not current-ma
 
 ## Reproduce
 
-1. Download **online_retail_II.xlsx** from the [UCI source](https://archive.ics.uci.edu/dataset/502/online+retail+ii) and place it beside the notebook. Preserve both sheets.
+1. Download **online_retail_II.xlsx** from the [UCI source](https://archive.ics.uci.edu/dataset/502/online+retail+ii) and place it at `sql/online_retail_II.xlsx`, relative to the repository root. Preserve both sheets.
 2. Use Python 3.13 and install dependencies:
 
    ```bash
@@ -66,7 +66,7 @@ The workbook and local environments are ignored by Git. The notebook contains sm
 - Grain: invoice line. Currency: GBP. Net recorded amount is positive line amounts plus signed cancellation amounts; it is not profit or recognized revenue.
 - Known postage, adjustments, manual entries, bank/platform fees, commissions, samples, tests and gift vouchers are classified separately. Remaining codes are product candidates.
 - December 2011 is partial and excluded from full-month comparisons. Cancellations remain in their recorded month and are not systematically matched to original orders.
-- Exact within-sheet duplicates are retained pending sensitivity analysis; raw-amount deduplication changes the total by GBP 54,228.42. This is not a final-metric robustness result.
+- Exact within-sheet duplicates remain in the baseline because matching transaction fields do not prove erroneous records. In the dashboard scope, removing 11,511 matching rows reduces net sales by GBP 52,895.50 (0.2853%); purchase retention is unchanged and 12 of 5,824 customers (0.21%) change fixed-threshold RFM segment. See [validation details](VALIDATION.md). The earlier GBP 54,228.42 raw-amount check uses a different scope.
 - Stock-code case is preserved; inconsistent descriptions and correction records need further review. Display names use the most frequent candidate-sale description, with a fallback for cancellation-only codes.
 - Shared-April customer comparisons are selected descriptive cohorts, not retention or churn estimates. No production deployment or real experiment is claimed.
 
@@ -74,7 +74,8 @@ The workbook and local environments are ignored by Git. The notebook contains sm
 
 - [x] Inspect source schema, missingness, overlap and unusual transactions
 - [x] Build candidate transaction flags and initial monthly diagnostics
-- [ ] Consolidate cleaning pipeline and complete sensitivity checks
+- [x] Check duplicate sensitivity for dashboard sales, retention and fixed-threshold RFM
+- [ ] Consolidate the cleaning pipeline
 - [x] Define customer repeat-purchase metrics and observation windows
 - [x] Load data into PostgreSQL and reproduce core metrics in SQL
 - [x] Build and document a three-page Power BI dashboard
@@ -107,7 +108,7 @@ Run the numbered files in [sql/](sql/) using PostgreSQL 18 and pgAdmin. Small ex
 - RFM includes 5,824 identified customers with at least one positive order. As of 2011-12-01, descriptive thresholds are recency <= 100 days, frequency >= 3 orders and net spending >= GBP 835.46. Non-positive net spending is marked for review (19 customers). Thresholds are exploratory, not validated targeting rules.
 - The more-recent, higher-frequency, higher-value segment contains 1,878 customers (32.25%) and 77.96% of RFM-population net sales. Historical contribution does not predict future spending; customer tenure affects frequency and spending.
 
-SQL was executed interactively by the author in pgAdmin. Published scripts were reviewed against those results and exported tables; this release does not claim an automated fresh-database integration test. The original notebook remains the first-milestone executed artifact; the export helper bridges it to SQL.
+SQL was executed interactively by the author in pgAdmin. Published scripts were reviewed against those results and exported tables; this release does not claim an automated fresh-database integration test. The notebook now includes the executed duplicate-sensitivity checks. The export helper bridges the retained-duplicate baseline to SQL; the sensitivity scenario does not replace the dashboard data.
 
 ## Source and attribution
 
