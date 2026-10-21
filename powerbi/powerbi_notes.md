@@ -118,10 +118,16 @@ Interaction checks performed:
 
 Clear selections before saving the presentation state. Narrative text boxes are static and should be labeled as overall findings where they describe all groups.
 
+## Final local walkthrough
+
+The user reran SQL 05 and 07, supplied the 24-row cohort and 9-row segmentation outputs, and reported exporting both CSVs. Screenshots supplied after the refresh instructions reconciled all three report pages: sales GBP 18,539,895.01 / 38,700 orders / GBP 493.16 AOV / 2.86% cancellation rate; retention 5,824 / 23.34% / 20.97%; leading RFM segment 1,878 / 32.25% / GBP 12,532,025.65 / 77.96%, with 19 Review customers and GBP -1,549.46. Unobservable retention cells remained blank.
+
+This is a user-operated, screenshot-backed reconciliation, not an automated PBIX refresh test. The reviewer did not independently observe refresh completion or the final save. No new transaction import, clean-database rebuild or repeat interaction test was performed. Save the PBIX with cleared selections before sharing. See [validation record](../VALIDATION.md#manual-sql-and-dashboard-reconciliation).
+
 ## Refresh and handover
 
 1. Prepare the PostgreSQL table using the project's documented Python export and SQL import workflow. Avoid importing the same CSV twice.
-2. Re-run SQL 05 and 07 and export their results to the two summary CSVs. Refreshing Power BI alone does not execute these SQL files or regenerate the exports.
+2. Re-run SQL 05 and 07 and export their results as UTF-8 CSV with headers to `data/processed/cohort_retention_summary.csv` (24 rows) and `data/processed/customer_segmentation_summary.csv` (9 rows), relative to the repository root. Preserve empty NULL retention cells. Published reference snapshots are in `results/`; they can be copied to these paths for a snapshot-based setup, but that is not a fresh SQL validation. Refreshing Power BI alone does not execute these SQL files or regenerate the exports.
 3. In Power BI Desktop, update the PostgreSQL source and local CSV paths through data source settings / Power Query as needed. Supply credentials locally; do not put passwords in documentation or the repository.
 4. Verify the transaction cutoff and Power Query transformations. In particular, keep cancellation amounts signed, preserve nulls, and divide percentage columns by 100 exactly once.
 5. Refresh the model and repeat the reconciliation checks above. Keep the snapshot date and observation window aligned across the transaction import and both CSV exports.
