@@ -8,7 +8,7 @@ This historical analysis identifies three priorities for commercial investigatio
 - **23.34% of eligible identified customers purchased in the next calendar month.** Excluding the first observed cohort reduces this to 20.97%. These are purchase-activity measures, not acquisition-based retention or churn estimates.
 - **32.25% of RFM customers contributed 77.96% of segment net sales.** This supports prioritizing account-level review, but does not show that these customers will remain valuable or respond profitably to an intervention.
 
-Duplicate-removal sensitivity leaves these main findings broadly unchanged. The recommended next step is a focused review of customer purchasing and correction records before designing a targeted experiment; the data does not support a blanket discount campaign or a claimed revenue uplift.
+Duplicate-removal sensitivity leaves these main findings broadly unchanged. The recommended next step is a focused review of customer purchasing and correction records before launching the test described in the completed [experiment proposal](EXPERIMENT_PROPOSAL.md); the data does not support a blanket discount campaign or a claimed revenue uplift.
 
 ## Scope and baseline
 
@@ -61,7 +61,7 @@ A cohort is the month of a customer's **first observed positive purchase**. Cust
 
 November 2011 customers have no observable month 1 within the reporting window and are excluded from both denominators. Month 1, 3 and 6 refer to purchases in those specific later calendar months. They are not cumulative measures: a customer may skip a month and return later. A blank future month is not zero retention, and absence in the next month is not confirmed churn. Purchase activity can also count even when a later cancellation offsets its value.
 
-**Recommended action:** use the cohort view to monitor repeat purchasing at comparable customer ages, keeping immature cohorts out of the denominator. Before proposing a reminder experiment, establish whether the products have a plausible repeat-purchase cycle and whether eligible customers can be contacted. A future test should measure incremental repeat purchasing and net value against a randomized control group; no intervention effect is estimated here.
+**Recommended action:** use the cohort view to monitor repeat purchasing at comparable customer ages, keeping immature cohorts out of the denominator. Before launching the [proposed reminder experiment](EXPERIMENT_PROPOSAL.md), establish whether the products have a plausible repeat-purchase cycle and whether eligible customers can be contacted. A future test should measure incremental repeat purchasing and net value against a randomized control group; no intervention effect is estimated here.
 
 Source: [cohort SQL](sql/05_customer_retention.sql), [cohort results](results/cohort_retention_summary.csv) and [Power BI measure definitions](powerbi/powerbi_notes.md). Pooled returning counts are reconstructed from the rounded cohort rates as documented in those notes.
 
@@ -111,11 +111,14 @@ These results support retaining the main interpretations under this particular a
 
 1. **Explain the largest observed changes:** reconcile the major correction records and review declining UK accounts with operational context.
 2. **Define an eligible intervention population:** use purchase cycles, contactability and customer history to narrow a potential repeat-purchase or reactivation test.
-3. **Design the test before rollout:** specify random assignment, an observation window, incremental net value and guardrails such as cancellation rate and incentive cost. Estimate sample size only after the eligible population and baseline variability are available.
+3. **Validate the proposal before rollout:** the [experiment proposal](EXPERIMENT_PROPOSAL.md) already defines randomization, outcomes, observation windows and guardrails. Confirm eligibility and operational feasibility, then finalize the minimum detectable effect, sample size and analysis plan using suitable pilot or operational data. No experiment has been run.
 
 These are proposed next steps for a historical portfolio case study, not actions taken or measured commercial outcomes.
 
 ## Evidence and report navigation
+
+- [Experiment proposal](EXPERIMENT_PROPOSAL.md): completed test design and requirements before launch; no experimental results.
+- [Validation record](VALIDATION.md): execution evidence, manual reconciliation and remaining test boundaries.
 
 - [Analysis notebook](01_data_check.ipynb): source quality checks, transaction definitions, sensitivity results and April investigation.
 - [Power BI workbook](powerbi/Online_Retail_Dashboard.pbix): saved interactive presentation; [technical notes](powerbi/powerbi_notes.md) document definitions and reconciliation checks.

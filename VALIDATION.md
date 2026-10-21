@@ -1,8 +1,21 @@
 # Validation record
 
+## Current validation status
+
+The historical analysis and documentation are complete. The evidence below covers Python execution, existing-database reconciliation and manual dashboard checks; it is not a clean-environment end-to-end integration test.
+
+| Area | Completed evidence | Boundary |
+| --- | --- | --- |
+| Python | All 98 analysis/export cells in the current 99-code-cell notebook completed in a fresh IPython process | Installation cell skipped; separate Jupyter-kernel launch not tested |
+| PostgreSQL | Existing transaction totals reconciled; SQL 05 and 07 rerun with 24 and 9 output rows | No clean-database rebuild or fresh transaction import in the final walkthrough |
+| Power BI | All three pages reconciled from screenshots; earlier interaction checks documented | Refresh completion and final save were not independently observed; no automated PBIX test |
+| Experiment | Proposal completed | No experiment executed or causal uplift measured |
+
+The sections below distinguish the final walkthrough, the fresh Python replay and earlier saved-output checks.
+
 ## Manual SQL and dashboard reconciliation
 
-Evidence: user-supplied pgAdmin and Power BI screenshots during the final local walkthrough. The user operated the desktop applications and reported exporting the SQL summaries. Screenshots supplied after the refresh instructions were checked for displayed values; the refresh operation and final PBIX save were not independently observed by the reviewer.
+Evidence: pgAdmin and Power BI screenshots from the final manual walkthrough. SQL-summary exports were reported as completed. Displayed results were reconciled to the baseline; refresh completion and the final PBIX save were not independently observed.
 
 | Check | Observed result |
 | --- | --- |
@@ -13,7 +26,7 @@ Evidence: user-supplied pgAdmin and Power BI screenshots during the final local 
 | Customer Retention | 5,824 customers; weighted month-1 retention 23.34%; excluding first cohort 20.97%; unobservable cells blank |
 | Customer Value | Leading group 32.25% of customers and 77.96% of segment net sales; Review group 19 customers and GBP -1,549.46 |
 
-These checks passed against the documented baseline. This walkthrough validated the existing database and reran SQL 05/07; it did not recreate the database, reimport transactions, rerun every SQL script, or repeat the earlier interaction tests. No GitHub upload or Power BI service publication was performed. The owner should save the final PBIX with cleared selections before handover.
+These checks passed against the documented baseline. This walkthrough validated the existing database and reran SQL 05/07; it did not recreate the database, reimport transactions, rerun every SQL script, or repeat the earlier interaction tests. Power BI service publication was outside the validation scope.
 
 
 ## Reproducibility and documentation review — 21 October 2026
@@ -22,12 +35,12 @@ The current 99-code-cell notebook was also replayed in a fresh IPython process f
 
 Local Markdown file links and notebook format validation passed. The published reference snapshots contain 24 cohorts and 9 RFM groups, each covering 5,824 customers. The desktop SQL 06 file had duplicated the RFM query; it was restored to the customer-concentration query. An independent pandas aggregation of the existing transaction CSV reproduced Top 10 / 50 / 100 shares of 16.23% / 29.56% / 36.68%. This checks the intended calculation, not PostgreSQL execution.
 
-README now distinguishes the automatic notebook export from the optional kernel-dependent helper, and reference CSV snapshots from newly executed SQL results. The business report and experiment proposal are linked with accurate completion status. No new PostgreSQL import, PBIX refresh, experiment execution or GitHub publication was performed during this review. Notebook visual rendering was not re-inspected; its source and saved outputs were left unchanged.
+README now distinguishes the automatic notebook export from the optional kernel-dependent helper, and reference CSV snapshots from newly executed SQL results. The business report and experiment proposal are linked with accurate completion status. This Python and documentation review did not include a new PostgreSQL import, PBIX refresh or experiment execution. Notebook visual rendering was not re-inspected; its source and saved outputs were left unchanged.
 
 
 ## Duplicate sensitivity milestone — 21 October 2026
 
-Evidence: the saved outputs and code in [01_data_check.ipynb](01_data_check.ipynb), under **Dashboard-scope duplicate sensitivity**. The saved notebook has sequential execution counts 1–99 and no error outputs. This publication review checked those saved results and the cell order; it did not independently rerun the workbook or refresh PostgreSQL or Power BI. To reproduce, place the UCI workbook at `sql/online_retail_II.xlsx`, start from the repository root and use **Restart & Run All** in Jupyter or VS Code.
+Evidence: the saved outputs and code in [01_data_check.ipynb](01_data_check.ipynb), under **Dashboard-scope duplicate sensitivity**. The saved notebook has sequential execution counts 1–99 and no error outputs. At this earlier milestone, the review covered saved results and cell order only. The subsequent fresh execution of the current notebook is recorded in the reproducibility review above; PostgreSQL and Power BI checks are documented separately. To reproduce, place the UCI workbook at `sql/online_retail_II.xlsx`, start from the repository root and use **Restart & Run All** in Jupyter or VS Code.
 
 ### Method and scope
 

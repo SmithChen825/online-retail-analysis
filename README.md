@@ -42,7 +42,7 @@ Blank retention cells represent months that are not yet observable, not zero ret
 
 RFM shares use identified customers with at least one positive order as their population. The segment with more recent purchases, higher frequency and higher monetary value accounts for 32.25% of these customers and 77.96% of segment net sales; this describes historical contribution, not predicted future value.
 
-## Early findings
+## Key findings
 
 - Source-sheet overlap is verified at record and occurrence-count level. The combined table contains 1,044,848 rows.
 - The current candidate product scope contains 1,033,062 rows and GBP 18,981,261.52 net recorded amount over the full observed period.
@@ -69,6 +69,8 @@ Local drafts, backups and the original planning brief are kept in `archive/`, wh
 
 ## Reproduce
 
+Workflow: **Excel → Notebook → transaction CSV → PostgreSQL → SQL summaries → Power BI**. The notebook generates the transaction CSV; database import, SQL-summary export and Power BI refresh are manual steps. This is a reproducible analytical workflow, not a fully automated pipeline.
+
 1. Download **online_retail_II.xlsx** from the [UCI source](https://archive.ics.uci.edu/dataset/502/online+retail+ii) and place it at `sql/online_retail_II.xlsx`, relative to the repository root. Preserve both sheets.
 2. Use Python 3.13 and install dependencies:
 
@@ -91,17 +93,20 @@ The workbook and local environments are ignored by Git. The notebook contains sm
 - Stock-code case is preserved; inconsistent descriptions and correction records need further review. Display names use the most frequent candidate-sale description, with a fallback for cancellation-only codes.
 - Shared-April customer comparisons are selected descriptive cohorts, not retention or churn estimates. No production deployment or real experiment is claimed.
 
-## Roadmap
+## Completed milestones
 
 - [x] Inspect source schema, missingness, overlap and unusual transactions
 - [x] Build candidate transaction flags and initial monthly diagnostics
 - [x] Check duplicate sensitivity for dashboard sales, retention and fixed-threshold RFM
-- [ ] Optional extension: consolidate the exploratory notebook into an automated pipeline
 - [x] Define customer repeat-purchase metrics and observation windows
 - [x] Load data into PostgreSQL and reproduce core metrics in SQL
 - [x] Build and document a three-page Power BI dashboard
 - [x] Write a business report
 - [x] Write an A/B test proposal (design only; not executed)
+
+## Optional future work
+
+Consolidate the exploratory notebook and manual handoffs into an automated pipeline. This is an engineering extension, not an outstanding requirement for the completed historical analysis.
 
 ## PostgreSQL milestone
 
