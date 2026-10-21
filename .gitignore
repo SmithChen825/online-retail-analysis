@@ -15,3 +15,12 @@ Thumbs.db
 # Publish small aggregate results only
 !results/
 !results/*.csv
+
+# Local working copies and review outputs
+*.before_*.ipynb
+*_draft.ipynb
+reproduction_check.json
+
+# Local history and release checklist
+archive/
+UPLOAD_CHECKLIST.md
