@@ -111,4 +111,4 @@ Chen, D. (2012). *[Online Retail II](https://archive.ics.uci.edu/dataset/502/onl
 
 The dataset is licensed under [Creative Commons Attribution 4.0 International (CC BY 4.0)](https://creativecommons.org/licenses/by/4.0/legalcode). Derived tables apply overlap removal, type/whitespace normalization, transaction classification and aggregation as documented in the [analysis notebook](01_data_check.ipynb). Download the original workbook from the linked UCI dataset page; it is not redistributed here.
 
-This project was developed with AI-assisted tutoring, code explanation and publication preparation. The [notebook](01_data_check.ipynb) and [validation record](VALIDATION.md) document the analysis and the checks performed.
+The [notebook](01_data_check.ipynb) and [validation record](VALIDATION.md) document the analysis and the checks performed.
