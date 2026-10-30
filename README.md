@@ -1,4 +1,4 @@
-# Online Retail II — Sales Analytics
+# Retail Sales & Customer Retention Analysis
 
 A historical retail analysis using **Python, PostgreSQL and Power BI** to examine sales trends, repeat purchasing and customer value.
 
