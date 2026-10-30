@@ -66,40 +66,6 @@ RFM means Recency, Frequency and Monetary value. Segment shares use identified c
 
 See the [business report](BUSINESS_REPORT.md) for interpretation and recommendations, and the [experiment proposal](EXPERIMENT_PROPOSAL.md) for a test design that has not yet been executed.
 
-## 🔄 Reproduce
-
-1. Download the [UCI workbook](https://archive.ics.uci.edu/dataset/502/online+retail+ii) and place it at `sql/online_retail_II.xlsx`, relative to the repository root. Preserve both sheets.
-2. Use Python 3.13 and install dependencies:
-
-   ```bash
-   python -m pip install -r requirements.txt
-   ```
-3. Open [01_data_check.ipynb](01_data_check.ipynb) in JupyterLab or VS Code, select that environment and run **Restart & Run All** from the repository directory. Allow several GB of free RAM.
-4. The final notebook cells export `data/processed/product_transactions.csv`. Follow the PostgreSQL and Power BI steps below to rebuild the dashboard inputs.
-
-<details>
-<summary>PostgreSQL import, SQL exports and Power BI handover</summary>
-
-Run the numbered files in [sql/](sql/) using PostgreSQL 18 and pgAdmin. Small exported tables are in [results/](results/).
-
-1. Execute the notebook through its final export cell. To repeat only the export, `%run export_transactions.py` is an optional helper in that same populated kernel. It requires `product_transactions` and cannot run as a standalone Python script.
-2. Create a database named `online_retail`, connect to it, and run `sql/01_create_tables.sql` once.
-3. Import `data/processed/product_transactions.csv` into `public.product_transactions`: choose CSV, UTF8, header enabled, comma delimiter, double quote for both quote and escape, and all 12 columns in table order. Empty customer IDs import as NULL. Import once into the empty table; another import appends duplicate rows.
-4. Run `02_validate_import.sql`. Expected checks: 1,033,062 rows, GBP 18,981,261.52 net amount and 227,214 missing customer IDs.
-5. Run scripts 03–07. Script 04 contains three separate statements. The full-period import check includes partial December 2011; monthly and customer analyses end before 2011-12-01.
-6. Export SQL 05 and 07 query results as UTF-8 CSV with headers to `data/processed/cohort_retention_summary.csv` and `data/processed/customer_segmentation_summary.csv`. Expect 24 cohort rows and 9 segment rows. Preserve NULL retention cells as empty values and the SQL percentage scale (for example, `35.02`, not `0.3502`). The files in `results/` are reference snapshots; copying them to these paths supports a snapshot-based setup, but does not validate a fresh SQL run.
-7. Open the PBIX, update PostgreSQL credentials and CSV paths, and refresh. Follow the [Power BI reconciliation checks](powerbi/powerbi_notes.md#reconciliation-and-interaction-checks), clear selections and save. The disconnected customer summaries must be regenerated separately when source data changes.
-
-| Script | Output |
-| --- | --- |
-| 03_monthly_yoy.sql | Monthly net sales and year-over-year growth |
-| 04_april_sales_diagnostics.sql | April amount, order and country comparisons |
-| 05_customer_retention.sql | Cohort sizes and month 1, 3 and 6 purchase retention |
-| 06_customer_value.sql | Top 10, 50 and 100 customer net-sales shares |
-| 07_customer_segmentation.sql | Exploratory RFM segment sizes and contribution |
-
-</details>
-
 ## 🧪 Definitions, Validation and Limitations
 
 Net sales sum signed product line amounts, including cancellations; they are not profit. Sales include missing customer IDs, while customer analyses require identified customers. Partial December 2011 is excluded from dashboard metrics but included in full-period import checks.
